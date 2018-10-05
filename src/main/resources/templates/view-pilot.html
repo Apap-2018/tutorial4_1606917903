@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>View Pilot</title>
+</head>
+
+<body>
+
+	<h3 th:text="'Pilot License Number: ' + ${pilot.licenseNumber}"></h3>
+	<h3 th:text="'Name: ' + ${pilot.name}"></h3>
+	<h3 th:text="'Fly Hour: ' + ${pilot.flyHour}"></h3>
+ 	<h4><a th:href="@{'/pilot/delete/' + ${pilot.licenseNumber}}" method="GET">Delete this pilot</a></h4>
+ 	<h4><a th:href="@{'/pilot/update/' + ${pilot.licenseNumber}}" method="GET">Update this pilot</a></h4>
+	<h4><a th:href="@{'/flight/add/' + ${pilot.licenseNumber}}">Add Flight</a></h4>
+	
+	<div th:if="${not #lists.isEmpty(listFlight)}">
+		<table>
+		<tr>
+		   <td th:text="'Flight number  |  '"></td>
+		   <td th:text="'Origin  |  '"></td>
+		   <td th:text="'Destination  |  '"></td>
+		   <td th:text="'Time'"></td>
+			   <tbody th:each="flight : ${listFlight}" th:remove="tag">
+			      <tr>
+			         <td th:text="${flight.flightNumber}"></td>
+			         <td th:text="${flight.origin}"></td>
+			         <td th:text="${flight.destination}"></td>
+			         <td th:text="${flight.time}"></td>
+			         <td>
+				         <form th:action="@{'/flight/delete/'+${flight.id}}" method="GET">
+							<button type="submit">Delete</button>
+						 </form>
+					 </td>
+					 <td>
+				         <form th:action="@{'/flight/update/'+${flight.id}}" method="GET">
+							<button type="submit">Update</button>
+						 </form>
+					 </td>
+			       </tr>
+			   	</tbody>
+		</table>
+	</div>
+	
+</body>
+</html>
